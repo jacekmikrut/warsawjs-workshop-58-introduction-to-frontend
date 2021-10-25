@@ -22,3 +22,8 @@ Git branches
 
 - `main` - a starting point: empty files to be edited
 - `complete` - a complete, example implementation
+
+Example implementation screenshot
+---------------------------------
+
+![Example implementation screenshot](example-implementation-screenshot.png)

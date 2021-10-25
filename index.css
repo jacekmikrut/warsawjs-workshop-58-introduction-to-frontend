@@ -1,1 +1,166 @@
-/* write CSS code here */
+/* General */
+
+:root {
+  --color: #8b7c75;
+  --dark-shadow-color: #000a;
+  --light-shadow-color: #444a;
+}
+
+html,
+button {
+  font-family: serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+/* Game UI */
+
+.box,
+.tile,
+.tile text {
+  transition: 0.33s ease-in-out;
+}
+
+.box {
+  --gap: 3%;
+  --tile-border-width: 15px;
+  --tile-border-radius: calc(var(--tile-border-width) * 2);
+  --box-border-width: calc(var(--tile-border-width) * 2);
+  --box-border-radius: calc(var(--tile-border-radius) + 0.5 * var(--gap) + var(--box-border-width));
+  --slot-size: calc(100% / var(--box-side-size));
+  position: relative;
+  width: 90vmin;
+  height: 90vmin;
+  background-color: #221a18;
+  border: solid var(--box-border-width) var(--color);
+  border-radius: var(--box-border-radius);
+  background-image:
+    radial-gradient(circle at 25% 25%, transparent 60%, #fff2),
+    radial-gradient(circle at 75% 75%, transparent 60%, #000e);
+  background-size:
+    calc(100% / var(--box-side-size))
+    calc(100% / var(--box-side-size));
+  box-shadow:
+    calc(-0.25 * var(--box-border-width)) calc(-0.25 * var(--box-border-width)) calc(0.75 * var(--box-border-width)) var(--light-shadow-color),
+    calc( 0.25 * var(--box-border-width)) calc( 0.25 * var(--box-border-width)) calc(0.75 * var(--box-border-width)) var( --dark-shadow-color);
+  transition-property: transform;
+}
+
+@media (max-width: 768px) {
+  .box {
+    --tile-border-width: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .box {
+    --tile-border-width: 5px;
+  }
+}
+
+@keyframes shake {
+  20%, 60% { transform: translateX( 5%); }
+  40%, 80% { transform: translateX(-5%); }
+}
+
+:is(.box, .tile).invalid-move-attempt {
+  animation: shake 0.35s;
+  z-index: 2;
+}
+
+.tile {
+  --tile-side-length: calc(var(--slot-size) - var(--gap));
+  --tile-shadow: 4px 4px 8px var(--dark-shadow-color);
+  position: absolute;
+  left: calc(0.5 * var(--gap) + var(--column-index) * (var(--tile-side-length) + var(--gap)));
+  top:  calc(0.5 * var(--gap) + var(--row-index)    * (var(--tile-side-length) + var(--gap)));
+  width:  var(--tile-side-length);
+  height: var(--tile-side-length);
+  border: solid var(--tile-border-width) var(--color);
+  border-radius: var(--tile-border-radius);
+  background-color: var(--color);
+  background-image: linear-gradient(-45deg, #fff5 0 20%, #0005 80% 100%);
+  cursor: pointer;
+  z-index: 1;
+  user-select: none;
+  box-shadow: var(--tile-shadow);
+  transition-property: transform, inset, box-shadow;
+}
+
+.tile text {
+  fill: #36261f;
+  font-size: 7px;
+  font-weight: bold;
+  text-anchor: middle;
+  dominant-baseline: central;
+  text-shadow: var(--tile-shadow);
+  transition-property: text-shadow;
+}
+
+@media (max-width: 768px) {
+  .tile {
+    --tile-shadow: 2px 2px 4px var(--dark-shadow-color);
+  }
+}
+
+@media (max-width: 480px) {
+  .tile {
+    --tile-shadow: 1px 1px 2px var(--dark-shadow-color);
+  }
+}
+
+/* Congratulations screen */
+
+@keyframes opacity    { from { opacity: 0; } }
+@keyframes slide-down { from { transform: translateY(-100%); } }
+@keyframes slide-up   { from { transform: translateY( 100%); } }
+
+#congratulations-screen {
+  position: fixed;
+  inset: 0 0 0 0;
+  background-color: #000d;
+  color: var(--color);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 10vmin;
+  font-weight: bold;
+  animation-name: opacity;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+}
+
+#congratulations-screen p {
+  animation-name: opacity, slide-down;
+}
+
+#congratulations-screen button {
+  border-radius: 2em;
+  border: none;
+  padding: 0.25em 0.5em;
+  background-color: var(--color);
+  color: #000;
+  font-size: 0.7em;
+  font-weight: inherit;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+  animation-name: opacity, slide-up;
+}
+
+#congratulations-screen :is(p, button) {
+  animation-duration: inherit;
+  animation-timing-function: inherit;
+}

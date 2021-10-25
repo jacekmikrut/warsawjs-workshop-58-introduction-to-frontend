@@ -1,1 +1,27 @@
-<!-- write HTML code here -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>15 puzzle</title>
+    <link href="index.css" rel="stylesheet">
+    <script src="index.js" defer></script>
+  </head>
+  <body>
+    <div class="box"></div>
+
+    <template id="tile-template">
+      <div class="tile">
+        <svg viewBox="0 0 10 10">
+          <text x="5" y="5">?</text>
+        </svg>
+      </div>
+    </template>
+
+    <template id="congratulations-screen-template">
+      <div id="congratulations-screen">
+        <p>Congratulations!</p>
+        <button class="play-again-button">Play again</button>
+      </div>
+    </template>
+  </body>
+</html>
